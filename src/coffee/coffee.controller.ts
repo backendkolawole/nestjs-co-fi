@@ -11,6 +11,7 @@ import {
 import { CoffeeService } from './coffee.service';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto/pagination-query.dto';
 
 @Controller('coffee')
 export class CoffeeController {
@@ -21,11 +22,8 @@ export class CoffeeController {
   }
 
   @Get('')
-  findAll(@Query() query) {
-    // const { limit, offset } = query;
-    // return `this action returns all coffees, limit: ${limit}, offset: ${offset}`;
-    return this.coffeeService.findAll();
-    // return 'here are all the coffees'
+  findAll(@Query() paginationQuery: PaginationQueryDto) {
+    return this.coffeeService.findAll(paginationQuery);
   }
 
   @Get(':id')
