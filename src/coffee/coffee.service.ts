@@ -7,9 +7,10 @@ import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { Flavor } from './entities/flavor.entity';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto/pagination-query.dto';
 import { Event } from 'src/events/entities/event.entity/event.entity';
-import { COFFEE_BRANDS } from './coffees.constants';
+import { ConfigService, ConfigType } from '@nestjs/config';
+import coffeeConfig from './config/coffee.config';
 
-@Injectable({ scope: Scope.REQUEST })
+@Injectable({})
 export class CoffeeService {
   constructor(
     @InjectRepository(Coffee)
@@ -17,9 +18,10 @@ export class CoffeeService {
     @InjectRepository(Flavor)
     private readonly flavorRepository: Repository<Flavor>,
     private readonly dataSource: DataSource,
-    @Inject(COFFEE_BRANDS) coffeeBrands: string[],
+    @Inject(coffeeConfig.KEY)
+    private readonly coffeeConfiguration: ConfigType<typeof coffeeConfig>,
   ) {
-    console.log('coffeeService instantitated');
+    console.log(coffeeConfiguration);
   }
 
   async create(createCoffeeDto: CreateCoffeeDto) {
